@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply h-8
+        min-w-[2rem]
+        text-sm
+        font-semibold
+        px-4
+        inline-block
+        text-center
+        rounded-md
+        outline-none
+        focus:ring-4
+        transform
+        active:scale-95
+        transition-transform
+        disabled:cursor-not-allowed;
+  }
+}
