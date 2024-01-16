@@ -30,10 +30,12 @@
 <script setup lang="ts">
 const router = useRouter();
 const useAuth = useAuthStore();
+const token = useCookie('token');
 const { isUser: user } = useAuth
 
 const logout = () => {
     useAuth.logout()
+    token.value = null
     router.push('/')
 }
 </script>

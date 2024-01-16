@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('authStore', {
     actions: {
         async login(username: string, password: string) {
             this.loading = true;
-            const { data, pending, error } = await useFetch<User>('https://dummyjson.com/auth/login', {
+            const { data, error } = await useFetch<User>('https://dummyjson.com/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: {
@@ -55,12 +55,11 @@ export const useAuthStore = defineStore('authStore', {
             }
             if (error.value) this.statusAuthenticated = 'error'
         },
-        async getUser() {
-            const token = useCookie('token');
+        async getUser(token: string) {
             const { data, error } = await useFetch<User>('https://dummyjson.com/auth/me', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token.value}`,
+                    'Authorization': `Bearer ${token}`,
                 },
             });
 
@@ -82,20 +81,15 @@ export const useAuthStore = defineStore('authStore', {
                         lastName,
                         gender,
                         image,
-                        token: token.value as string,
+                        token,
                         role: ''
                     }
                 );
             }
 
-            if (error.value) {
-                this.logout();
-            }
-
+            return { data, error }
         },
         logout() {
-            const token = useCookie('token');
-            token.value = null;
             this.user = null;
             this.statusAuthenticated = 'un-authenticated'
         },
@@ -106,5 +100,5 @@ export const useAuthStore = defineStore('authStore', {
         setStatusAuthenticated(status: TStatusAuthenticated) {
             this.statusAuthenticated = status
         }
-    }
+    },
 })

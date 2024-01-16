@@ -7,4 +7,7 @@
 useHead({
     title: 'Configuración',
 })
+definePageMeta({
+    middleware: ['auth']
+})
 </script>

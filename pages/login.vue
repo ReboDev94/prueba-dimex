@@ -46,6 +46,7 @@ useHead({
 })
 definePageMeta({
     layout: false,
+    middleware: ['guest']
 });
 
 const useAuth = useAuthStore()
